@@ -1,0 +1,16 @@
+<div id="ntscNavSection" class="navSection">
+  <div class="navSectionContent" style="display: block">
+    {{#each Sections}}
+      <h3>{{Name}}</h3>
+      <ul>
+        {{#each Categories}}
+          <li><a href="{{escapeHtmlAttribute LinkUrl}}">{{ShortName}}</a></li>
+        {{/each}}
+      </ul>
+    {{/each}}
+  </div>
+</div>
+
+<div id="wikiNavSection" class="navSection navExternalLinkSection">
+  <a href="https://wiki.supermetroid.run/Categories" target="_blank" class="link">More at the wiki</a>
+</div>

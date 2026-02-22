@@ -1,0 +1,158 @@
+const { Temporal } = require('temporal-polyfill');
+const utils = require('./utils');
+
+const recordUtil = {};
+
+recordUtil.createRecord = function(category, player, gameTime, escapeGameTime, realTime, videoLink, comment, submittedByUserId)
+{
+  const record =
+  {
+    CategoryId: category.Id,
+    Player: player,
+    GameTimeSeconds: 0,
+    RealTimeSeconds: 0,
+    CeresTime: 0,
+    VideoURL: videoLink ?? '',
+    Comment: comment ?? '',
+    DateSubmitted: new Date(),
+    SubmittedByUserId: submittedByUserId
+  };
+
+  if (category.GameTime)
+  {
+    const formattedTime = getFormattedTime(gameTime);
+    if (formattedTime.TimeSeconds == -1)
+    {
+      return null;
+    }
+
+    record.GameTimeSeconds = formattedTime.TimeSeconds * 60;
+    record.GameTimeString = formattedTime.TimeString;
+  }
+
+  if (category.RealTime)
+  {
+    const formattedTime = getFormattedTime(realTime);
+    if (formattedTime.TimeSeconds == -1)
+    {
+      return null;
+    }
+
+    record.RealTimeSeconds = formattedTime.TimeSeconds;
+    record.RealTimeString = formattedTime.TimeString;
+  }
+
+  if (category.EscapeGameTime)
+  {
+    try
+    {
+      record.CeresTime = parseEscapeTime(escapeGameTime);
+    }
+    catch (ex)
+    {
+      return null;
+    }
+  }
+
+  // Normalize missing/empty time strings (for legacy purposes)
+  record.GameTimeString = record.GameTimeString ?? '';
+  record.RealTimeString = record.RealTimeString ?? '';
+
+  return record;
+};
+
+const threeComponentTimeRegex = /^(\d\d?):(\d\d):(\d\d?)$/;
+const twoComponentTimeRegex = /^(\d\d?):(\d\d)$/;
+const escapeTimeRegex = /^(\d+)['"](\d+)$/;
+
+const invalidFormattedTime =
+{
+  TimeSeconds: -1,
+  TimeString: '-1'
+};
+
+function getFormattedTime(timeString)
+{
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+
+  const threeComponentTime = threeComponentTimeRegex.exec(timeString);
+  if (threeComponentTime)
+  {
+    hours = parseInt(threeComponentTime[1]);
+    minutes = parseInt(threeComponentTime[2]);
+    seconds = parseInt(threeComponentTime[3]);
+  }
+  else
+  {
+    const twoComponentTime = twoComponentTimeRegex.exec(timeString);
+    if (twoComponentTime)
+    {
+      minutes = parseInt(twoComponentTime[1]);
+      seconds = parseInt(twoComponentTime[2]);
+    }
+    else
+    {
+      return invalidFormattedTime;
+    }
+  }
+
+  if (minutes > 59 || seconds > 59)
+  {
+    return invalidFormattedTime;
+  }
+
+  const formattedTime = {};
+  formattedTime.TimeSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+  if (hours > 0)
+  {
+    formattedTime.TimeString = `${hours}:${utils.formatTimeComponent(minutes)}:${utils.formatTimeComponent(seconds)}`;
+  }
+  else
+  {
+    formattedTime.TimeString = `${utils.formatTimeComponent(minutes)}:${utils.formatTimeComponent(seconds)}`;
+  }
+
+  return formattedTime;
+}
+
+function parseEscapeTime(timeString)
+{
+    const escapeTimeMatches = escapeTimeRegex.exec(timeString);
+    if (escapeTimeMatches)
+    {
+      const escapeTimeAsFloatString = `${escapeTimeMatches[1]}.${escapeTimeMatches[2]}`;
+      return parseFloat(escapeTimeAsFloatString);
+    }
+    
+    throw new Error(`Invalid escape time: ${timeString}`);
+}
+
+recordUtil.getFormattedRealTime = function(realTimeSeconds)
+{
+  const realTime = Temporal.Duration.from({ seconds: realTimeSeconds }).round({ largestUnit: 'hours', smallestUnit: 'seconds' });
+  if (realTime.hours == 0)
+  {
+    return `${utils.formatTimeComponent(realTime.minutes)}:${utils.formatTimeComponent(realTime.seconds)}`;
+  }
+  else
+  {
+    return `${realTime.hours}:${utils.formatTimeComponent(realTime.minutes)}:${utils.formatTimeComponent(realTime.seconds)}`;
+  }
+};
+
+recordUtil.getFormattedGameTime = function(gameTimeSeconds)
+{
+  const gameTime = Temporal.Duration.from({ seconds: gameTimeSeconds }).round({ largestUnit: 'hours', smallestUnit: 'minutes' });
+  return `${utils.formatTimeComponent(gameTime.hours)}:${utils.formatTimeComponent(gameTime.minutes)}`;
+};
+
+// escapeGameTime is a float (in seconds)
+recordUtil.getFormattedEscapeGameTime = function(escapeGameTime)
+{
+  return escapeGameTime.toFixed(2).toString().replace('.', '\'');
+};
+
+module.exports = recordUtil;

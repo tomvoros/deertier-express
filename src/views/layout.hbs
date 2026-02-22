@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    {{!-- Favicons generated with http://realfavicongenerator.net/favicon_result?file_id=p1b4kilhe21v201lbvi63dk8uv66#.WFx2I_krKUk --}}
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#fec200" />
+
+    <meta name="apple-mobile-web-app-title" content="Deer Tier" />
+    <meta name="application-name" content="Deer Tier" />
+    <meta name="theme-color" content="#331f52" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="Stylesheet" type="text/css" href="/stylesheets/reset.css" />
+    <link rel="Stylesheet" type="text/css" href="/stylesheets/font-awesome.min.css" />
+    <link rel="Stylesheet" type="text/css" href="/stylesheets/styles.css?v=31" />
+
+    <script type="text/javascript" src="/javascripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.dataTables-1.10.16.min.js"></script>
+    <script type="text/javascript" src="/javascripts/main.js?v=5"></script>
+    
+    <title>{{Title}} - Deer Tier</title>
+  </head>
+  <body>
+    <div id="page">
+      {{#if IsPreviewSite}}
+        <div id="previewSite">
+          This is the Deer Tier preview site. The leaderboards have a mix of (outdated) real data and completely bogus test data.
+        </div>
+      {{/if}}
+
+      <div id="loginContainer">
+        <div class="loginBar">
+          <div ID="loggedOutControls">
+            {{> user }}
+          </div>
+        </div>
+      </div>
+
+      <div id="headerContainer">
+        <div id="header">
+          <div class="mainTitle"><a href="/">Deer Tier</a></div>
+          <div class="subtitle"><a href="/">Hall of Fame</a></div>
+        </div>
+      </div>
+
+      <div id="wrapper">
+        <div class="leftNav">
+          {{> mainCategories MainCategories }}
+        </div>
+    
+        <div id="contentContainer">
+          <div id="content">
+            {{{body}}}
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    <div id="footer">
+      <p>&copy; Landmaster 2012-{{CurrentYear}}</p>
+      <p class="email">support (at) deertier (dot) com</p>
+    </div>
+  </body>
+</html>

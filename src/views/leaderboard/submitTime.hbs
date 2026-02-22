@@ -1,0 +1,46 @@
+<div id="addTime">
+  <div class="addTimeTitle">
+    Add Time: {{Category.FullName}}
+  </div>
+
+  <br />
+
+  <form method="post">
+    <div class="addTimeForm">
+      {{#if Category.GameTime}}
+        Game time: (e.g. 00:41)<br />
+        <input type="text" class="addTimeTextField" name="gameTime" /><br />
+      {{/if}}
+
+      {{#if Category.EscapeGameTime}}
+        Ceres time: (e.g. 42'33)<br />
+        <input type="text" class="addTimeTextField" name="escapeGameTime" /><br />
+      {{/if}}
+
+      {{#if Category.RealTime}}
+        Real time: (e.g. 1:01:50 or 57:44)<br />
+        <input type="text" class="addTimeTextField" name="realTime" /><br />
+      {{/if}}
+
+      Video URL:<br />
+      <input type="text" class="videoLinkTextField" name="videoLink" maxlength="100" /><br />
+
+      Comment:<br />
+      <input type="text" class="commentTextField" name="comment" maxlength="100" /><br />
+
+      {{#if IsModerator}}
+        Submit time as another user (enter username)<br />
+        <input type="text" class="usernameTextField" name="username" maxlength="100" /><br />
+      {{/if}}
+    </div>
+
+    <input class="genericButton" type="submit" value="Submit" />
+  </form>
+
+  {{#if ErrorMessage}}
+    <div class="statusLiteral">
+      {{ErrorMessage}}
+    </div>
+  {{/if}}
+  
+</div>

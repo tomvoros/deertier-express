@@ -1,0 +1,45 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console"
+    },
+    "access": {
+      "type": "dateFile",
+      "filename": "../logs/Access.log",
+      "pattern": "-yyyy-MM-dd",
+      "category": "http"
+    },
+    "app": {
+      "type": "file",
+      "filename": "../logs/DeerTier.log",
+      "maxLogSize": "10M",
+      "numBackups": 10,
+      "layout": {
+        "type": "pattern",
+        "pattern": "%d{yyyy-MM-dd hh:mm:ss,SSS} [%z] %p %c - %m"
+      }
+    },
+    "errorFile": {
+      "type": "file",
+      "filename": "../logs/DeerTier.errors.log",
+      "maxLogSize": "10M",
+      "numBackups": 10
+    },
+    "errors": {
+      "type": "logLevelFilter",
+      "level": "ERROR",
+      "appender": "errorFile"
+    }
+  },
+  
+  "categories": {
+    "default": {
+      "appenders": [ "console", "app", "errors" ],
+      "level": "DEBUG"
+    },
+    "http": {
+      "appenders": [ "access"],
+      "level": "DEBUG"
+    }
+  }
+}

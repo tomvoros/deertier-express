@@ -1,0 +1,65 @@
+<div id="mainPageContent">
+  <div class="title">
+    <h1>Welcome, Super Metroid Speedrunners!</h1>
+  </div>
+
+  <div class="japaneseTitle">
+    ようこそ、日本のスーパーメトロイドスピードラナーズ!
+  </div>
+
+  {{#if IsPreviewSite}}
+    <div id="previewChanges" class="mainPageSection">
+      <h2 class="title">Preview changes</h2>
+      <br/>
+      <ul>
+        <li>Ported the entire site from ASP.NET to Express.js</li>
+      </ul>
+    </div>
+  {{/if}}
+
+  <div class="wikiContent">
+    <!-- START WIKI CONTENT -->
+    {{{EmbeddedHtmlContent}}}
+    <!-- END WIKI CONTENT -->
+  </div>
+
+  {{!-- NO POLLS RIGHT NOW
+  <div class="mainPageSection pollsSection">
+    <h2 class="title">Polls</h2>
+
+    <div class="pollsDescription">
+      Help us make decisions about the future of Deer Tier!
+    </div>
+
+    <iframe src="http://www.strawpoll.me/embed_1/11839006" style="width:650px;height:695px;border:0;margin-bottom:15px;">Loading poll...</iframe>
+
+    <p>
+      There was some concern that the previous poll for <a href="http://deanyd.net/sm/index.php?title=14%25_Chargeless" target="_blank">Low% Chargeless</a>
+      was too easy to mess with so we're redoing it with Straw Poll. If you voted on the previous poll you can go ahead and vote again.
+    </p>
+
+    <br />
+
+    <iframe src="http://www.strawpoll.me/embed_1/11889639" style="width:650px;height:735px;border:0;">Loading poll...</iframe>
+  </div>
+  --}}
+
+  <div class="mainPageSection newsSection">
+    <h2 class="title">News</h2>
+
+    <div class="newsPost">
+      <ul class="newsMeta">
+        <li class="newsDate">No recent news.</li>
+      </ul>
+    </div>
+
+    <a href="/News">Past News</a>
+  </div>
+
+  <div class="mainPageSection">
+    <h2 class="title">Moderators</h2>
+    <br />
+
+    Your moderators are <b>{{{FormattedModerators}}}</b>. If you have any questions about the times you or anyone else has submitted, please feel free to contact any of them in the #supermetroid channel on our <a href="{{DiscordUrl}}" target="_blank" class="link">Discord</a> server.
+  </div>
+</div>

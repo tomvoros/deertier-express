@@ -1,0 +1,135 @@
+{{#if IsModerator}}
+  <script src="/javascripts/moderator.js?v=1" type="text/javascript"></script>
+{{/if}}
+
+<div class="tableTitleBar">
+  <div class="tableTitleContainer">
+    <h1>{{Heading}}</h1>
+    <h2>{{SectionHeading}}</h2>
+  </div>
+
+  <div class="submitButtonContainer">
+    {{#if Category.WikiUrl}}
+      <a class="wikiLink" href="{{escapeHtmlAttribute Category.WikiUrl}}" target="_blank">Category Wiki<i class="fa fa-external-link" aria-hidden="true"></i></a>
+    {{/if}}
+    <a class="genericButton" href="/Leaderboard/{{Category.UrlName}}/Submit">Submit Time</a>
+  </div>
+</div>
+
+<div class="tableFilters">
+  <input id="hideRecordsWithoutVideo" type="checkbox"
+    {{#if HideRecordsWithoutVideo}}
+      checked="checked"
+    {{/if}}
+  >
+  <label for="hideRecordsWithoutVideo">Hide records without video</label>
+</div>
+
+{{#if SiblingCategories}}
+  <div class="siblingCategories">
+    <ol>
+      {{#each SiblingCategories}}
+        <li>
+          <a href="{{escapeHtmlAttribute LinkUrl}}"
+            {{!-- Add CSS class on selected category --}}
+            {{#if (eq Id @root.Category.Id)}}
+              class="selected"
+            {{/if}}
+          >
+            {{Name}}
+          </a>
+        </li>
+      {{/each}}
+    </ol>
+  </div>
+{{/if}}
+
+<div class="scoreTable">
+  <table class="defaultTable">
+    <thead>
+      <tr>
+        <th class="rankColumn sorting_asc">
+          Rank
+        </th>
+        <th class="playerColumn">
+          Player
+        </th>
+        {{#if Category.GameTime}}
+          <th class="gameTimeColumn">
+            Game Time
+          </th>
+        {{/if}}
+        {{#if Category.RealTime}}
+          <th class="realTimeColumn">
+            Real Time
+          </th>
+        {{/if}}
+        {{#if Category.EscapeGameTime}}
+          <th class="escapeGameTimeColumn">
+            Time
+          </th>
+        {{/if}}
+        <th class="proofColumn nosort">
+          Video
+        </th>
+        <th class="commentColumn nosort">
+          Comment
+        </th>
+        <th class="dateSubmittedColumn">
+          Date
+        </th>
+        {{#if IsModerator}}
+          <th class="moderatorDeleteColumn nosort">
+            Delete
+          </th>
+        {{/if}}
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each Records}}
+        <tr
+          {{#if RankClass}}
+            class="{{RankClass}}"
+          {{/if}}
+        >
+          <td>
+            {{Rank}}
+          </td>
+          <td class="playerName">
+            {{Player}}
+          </td>
+          {{#if @root.Category.GameTime}}
+            <td data-order="{{GameTimeSeconds}}">
+              {{FormattedGameTime}}
+            </td>
+          {{/if}}
+          {{#if @root.Category.RealTime}}
+            <td data-order="{{RealTimeSeconds}}">
+              {{FormattedRealTime}}
+            </td>
+          {{/if}}
+          {{#if @root.Category.EscapeGameTime}}
+            <td data-order="{{CeresTime}}">
+              {{FormattedEscapeGameTime}}
+            </td>
+          {{/if}}
+          <td class="videoLink">
+            {{{VideoURLAsLink}}}
+          </td>
+          <td class="comment">
+            {{{HtmlComment}}}
+          </td>
+          <td data-order="{{DateSubmittedSortOrder}}">
+            {{DateSubmittedAsString}}
+          </td>
+          {{#if @root.IsModerator}}
+            <td class="delete">
+              <a href="javascript:void(0)" data-id="{{Id}}">&#10005;</a>
+            </td>
+          {{/if}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
