@@ -12,8 +12,9 @@ const config =
 
   dbConnectionPool: 10,
 
-  // Adjust database timezone offset to match the .net site deployed at MonsterASP.net
-  dbTimezone: '-07:00',
+  // Adjust database timezone offset to match the old .net site that was deployed at MonsterASP.net
+  // This corrects most record timestamps but not all of them, unfortunately
+  dbTimezone: '-06:00',
 
   isPreviewSite: false
 };
