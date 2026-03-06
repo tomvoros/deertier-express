@@ -20,13 +20,13 @@ recordUtil.createRecord = function(category, player, gameTime, escapeGameTime, r
 
   if (category.GameTime)
   {
-    const formattedTime = getFormattedTime(gameTime);
+    const formattedTime = getFormattedGameTime(gameTime);
     if (formattedTime.TimeSeconds == -1)
     {
       return null;
     }
 
-    record.GameTimeSeconds = formattedTime.TimeSeconds * 60;
+    record.GameTimeSeconds = formattedTime.TimeSeconds;
     record.GameTimeString = formattedTime.TimeString;
   }
 
@@ -114,6 +114,37 @@ function getFormattedTime(timeString)
   {
     formattedTime.TimeString = `${utils.formatTimeComponent(minutes)}:${utils.formatTimeComponent(seconds)}`;
   }
+
+  return formattedTime;
+}
+
+// Parse a time string in the "HH:MM" format
+// MM range: 00 to 59
+// HH range: 00 to 99
+function getFormattedGameTime(timeString)
+{
+  let hours = 0;
+  let minutes = 0;
+
+  const twoComponentTime = twoComponentTimeRegex.exec(timeString);
+  if (twoComponentTime)
+  {
+    hours = parseInt(twoComponentTime[1]);
+    minutes = parseInt(twoComponentTime[2]);
+  }
+  else
+  {
+    return invalidFormattedTime;
+  }
+
+  if (minutes > 59)
+  {
+    return invalidFormattedTime;
+  }
+
+  const formattedTime = {};
+  formattedTime.TimeSeconds = (hours * 3600) + (minutes * 60);
+  formattedTime.TimeString = `${utils.formatTimeComponent(hours)}:${utils.formatTimeComponent(minutes)}`;  
 
   return formattedTime;
 }
