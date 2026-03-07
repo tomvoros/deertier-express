@@ -55,7 +55,7 @@ router.get('/:categoryUrlName', async function(req, res)
   }
   else if (category.GameTime)
   {
-    records.sort((a, b) => (a.GameTimeSeconds - b.GameTimeSeconds) || (a.DateSubmitted || b.DateSubmitted));
+    records.sort((a, b) => (a.GameTimeSeconds - b.GameTimeSeconds) || (a.DateSubmitted - b.DateSubmitted));
     rankedRecords = rankRecords(records, r => r.GameTimeSeconds);
   }
   else if (category.EscapeGameTime)
@@ -65,7 +65,7 @@ router.get('/:categoryUrlName', async function(req, res)
   }
   else
   {
-    records.sort((a, b) => (a.RealTimeSeconds - b.RealTimeSeconds) || (a.DateSubmitted || b.DateSubmitted));
+    records.sort((a, b) => (a.RealTimeSeconds - b.RealTimeSeconds) || (a.DateSubmitted - b.DateSubmitted));
     rankedRecords = rankRecords(records, r => r.RealTimeSeconds);
   }
 
