@@ -60,7 +60,7 @@ router.get('/:categoryUrlName', async function(req, res)
   }
   else if (category.EscapeGameTime)
   {
-    records.sort((a, b) => (a.CeresTime - b.CeresTime) || (a.DateSubmitted - b.DateSubmitted));
+    records.sort((a, b) => (b.CeresTime - a.CeresTime) || (a.DateSubmitted - b.DateSubmitted));
     rankedRecords = rankRecords(records, r => r.CeresTime);
   }
   else
@@ -78,24 +78,36 @@ router.get('/:categoryUrlName', async function(req, res)
 // Rank records using standard competitive ranking ("1224" ranking)
 function rankRecords(records, recordRankKey)
 {
+  if (records.length == 0)
+  {
+    return records;
+  }
+
   const rankedRecords = records.map(r =>  
   ({
     Record: r,
-    Rank: 0
+    Rank: 1
   }));
 
-  let rank = 1;
-  const rankGroups = Object.groupBy(rankedRecords, r => recordRankKey(r.Record));
-  
-  Object.values(rankGroups).forEach(rankGroup =>
-  {
-    for (const rankedRecord of rankGroup)
-    {
-      rankedRecord.Rank = rank;
-    }
+  let lastRank = 1;
+  let lastRankKey = recordRankKey(records[0]);
 
-    rank += rankGroup.length;
-  });
+  for (let i = 1; i < rankedRecords.length; i++)
+  {
+    let r = rankedRecords[i];
+    let rankKey = recordRankKey(r.Record);
+
+    if (rankKey == lastRankKey)
+    {
+      r.Rank = lastRank;
+    }
+    else
+    {
+      lastRankKey = rankKey;
+      r.Rank = i + 1;
+      lastRank = r.Rank;
+    }
+  }
 
   return rankedRecords;
 }
