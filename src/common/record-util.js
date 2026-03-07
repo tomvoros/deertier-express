@@ -180,10 +180,10 @@ recordUtil.getFormattedGameTime = function(gameTimeSeconds)
   return `${utils.formatTimeComponent(gameTime.hours)}:${utils.formatTimeComponent(gameTime.minutes)}`;
 };
 
-// escapeGameTime is a float (in seconds)
+// escapeGameTime comes from a DECIMAL(4,2) column which mysql2 loads as a string
 recordUtil.getFormattedEscapeGameTime = function(escapeGameTime)
 {
-  return escapeGameTime.toFixed(2).toString().replace('.', '\'');
+  return escapeGameTime.replace('.', '\'');
 };
 
 module.exports = recordUtil;
