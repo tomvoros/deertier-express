@@ -151,7 +151,7 @@ function mapRecord(rankedRecord, category)
   if (!utils.isNullOrWhitespace(record.Comment))
   {
     recordModel.HtmlComment = utils.escapeHtml(record.Comment)
-      .replace('FrankerZ', '<img src="/images/FrankerZ.png"/>');
+      .replaceAll('FrankerZ', '<img src="/images/FrankerZ.png"/>');
   }
 
   return recordModel;
