@@ -163,7 +163,7 @@ function parseEscapeTime(timeString)
 
 recordUtil.getFormattedRealTime = function(realTimeSeconds)
 {
-  const realTime = Temporal.Duration.from({ seconds: realTimeSeconds }).round({ largestUnit: 'hours', smallestUnit: 'seconds' });
+  const realTime = Temporal.Duration.from({ seconds: realTimeSeconds }).round({ largestUnit: 'hours', smallestUnit: 'seconds', roundingMode: 'trunc' });
   if (realTime.hours == 0)
   {
     return `${utils.formatTimeComponent(realTime.minutes)}:${utils.formatTimeComponent(realTime.seconds)}`;
@@ -176,7 +176,7 @@ recordUtil.getFormattedRealTime = function(realTimeSeconds)
 
 recordUtil.getFormattedGameTime = function(gameTimeSeconds)
 {
-  const gameTime = Temporal.Duration.from({ seconds: gameTimeSeconds }).round({ largestUnit: 'hours', smallestUnit: 'minutes' });
+  const gameTime = Temporal.Duration.from({ seconds: gameTimeSeconds }).round({ largestUnit: 'hours', smallestUnit: 'minutes', roundingMode: 'trunc' });
   return `${utils.formatTimeComponent(gameTime.hours)}:${utils.formatTimeComponent(gameTime.minutes)}`;
 };
 
