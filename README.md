@@ -8,7 +8,7 @@ The website is written in **Node.js 22** and **Express.js 5** using **Handlebars
 
 ## Database
 
-The database used on deertier.com is **MySQL** (actually **MariaDB**) but other flavours of SQL would probably work as well.
+The database used on deertier.com is **MySQL** but other flavours of SQL would probably work as well.
 
 If you'd like to work with the database please use the scripts in the db folder to set up your own instance and then enter the connection
 info in **app/.env**.
