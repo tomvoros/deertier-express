@@ -16,7 +16,7 @@ const config =
   // This corrects most record timestamps but not all of them, unfortunately
   dbTimezone: '-06:00',
 
-  isPreviewSite: false
+  isPreviewSite: process.env.IS_PREVIEW_SITE === "true"
 };
 
 module.exports = config;
