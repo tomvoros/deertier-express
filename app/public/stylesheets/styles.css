@@ -851,6 +851,14 @@ textarea
     text-decoration: none;
 }
 
+.categoryNote
+{
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    background-color: #5B379144;
+    color: #ccc;
+}
+
 #wrapper
 {
     width: 1300px;
